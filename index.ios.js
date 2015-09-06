@@ -5,27 +5,52 @@ var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
-  Text,
+  Component,
   View,
-  Component
+  Text,
+  WebView
 } = React;
 
 class Annotations extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {loggedIn: false};
+  }
+
+  onNavigationStateChange(navState) {
+    if(navState.url == 'https://kindle.amazon.com/' && navState.title == 'Amazon Kindle: Home') {
+      this.setState({loggedIn: true});
+    }
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
+    fetch('https://kindle.amazon.com/your_highlights')
+    .then((response) => response.text())
+    .then((responseText) => {
+      if(!responseText.match(/What\sis\syour\se-mail\sor\smobile\snumber/)) {
+        this.setState({loggedIn: true});
+      }
+    }).catch((err)=>{
+      console.log(err);
+    });
+
+    if(this.state.loggedIn) {
+      return (
+        <View style={styles.container}>
+          <Text>Render books here!</Text>
+        </View>
+      );
+    } else {
+      return (
+        <WebView
+          automaticallyAdjustContentInsets={true}
+          style={styles.container}
+          url={'https://kindle.amazon.com/login'}
+          onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+          startInLoadingState={true}
+        />
+      );
+    }
   }
 }
 
@@ -33,18 +58,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    alignItems: 'center'
   }
 });
 
