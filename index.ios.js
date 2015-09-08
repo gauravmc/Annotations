@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var CookieManager = require('react-native-cookies');
 
 var {
   AppRegistry,
@@ -11,28 +12,72 @@ var {
   WebView
 } = React;
 
+// var STORAGE_KEY = '@AnnotationsStore:key';
+var KINDLE_HOME = 'https://kindle.amazon.com/';
+
 class Annotations extends Component {
   constructor(props) {
     super(props);
     this.state = {loggedIn: false};
   }
 
+  componentDidMount() {
+    CookieManager.getAll((cookies) => {
+      if(cookies['sess-at-main'] && cookies['sess-at-main'].domain == '.amazon.com') {
+        this.setState({loggedIn: true});
+      }
+    });
+  }
+
   onNavigationStateChange(navState) {
-    if(navState.url == 'https://kindle.amazon.com/' && navState.title == 'Amazon Kindle: Home') {
+    if(navState.url == KINDLE_HOME) {
       this.setState({loggedIn: true});
     }
   }
 
+  // async _loadInitialState() {
+  //   try {
+  //     var value = await AsyncStorage.getItem(STORAGE_KEY);
+  //     if (value !== null){
+  //       this.setState({selectedValue: value});
+  //       console.log('Recovered selection from disk: ' + value);
+  //     } else {
+  //       console.log('Initialized with no selection on disk.');
+  //     }
+  //   } catch (error) {
+  //     console.error('AsyncStorage error: ' + error.message);
+  //   }
+  // }
+  //
+  // async _onValueChange(selectedValue) {
+  //   this.setState({selectedValue});
+  //   try {
+  //     await AsyncStorage.setItem(STORAGE_KEY, selectedValue);
+  //     console.log('Saved selection to disk: ' + selectedValue);
+  //   } catch (error) {
+  //     console.error('AsyncStorage error: ' + error.message);
+  //   }
+  // }
+  //
+  // async _removeStorage() {
+  //   try {
+  //     await AsyncStorage.removeItem(STORAGE_KEY);
+  //     console.log('Selection removed from disk.');
+  //   } catch (error) {
+  //     console.error('AsyncStorage error: ' + error.message);
+  //   }
+  // }
+
   render() {
-    fetch('https://kindle.amazon.com/your_highlights')
-    .then((response) => response.text())
-    .then((responseText) => {
-      if(!responseText.match(/What\sis\syour\se-mail\sor\smobile\snumber/)) {
-        this.setState({loggedIn: true});
-      }
-    }).catch((err)=>{
-      console.log(err);
-    });
+    // fetch('https://kindle.amazon.com/your_highlights')
+    // .then((response) => response.text())
+    // .then((responseText) => {
+    //   if(!responseText.match(/What\sis\syour\se-mail\sor\smobile\snumber/)) {
+    //     this.setState({loggedIn: true});
+    //   }
+    // }).catch((err)=>{
+    //   console.error(err);
+    // });
 
     if(this.state.loggedIn) {
       return (
@@ -45,8 +90,9 @@ class Annotations extends Component {
         <WebView
           automaticallyAdjustContentInsets={true}
           style={styles.container}
-          url={'https://kindle.amazon.com/login'}
+          url={`${KINDLE_HOME}login`}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+          scalesPageToFit={true}
           startInLoadingState={true}
         />
       );
