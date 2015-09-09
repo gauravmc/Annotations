@@ -24,8 +24,11 @@ class Annotations extends Component {
   }
 
   componentDidMount() {
+    // CookieManager.clearAll(() => {});
     CookieManager.getAll((cookies) => {
-      if(cookies['sess-at-main'] && cookies['sess-at-main'].domain == '.amazon.com') {
+      console.log('current cookies:');
+      console.log(cookies);
+      if(cookies['at-main'] && cookies['at-main'].domain == '.amazon.com') {
         this.fetchBooks(); // temporary for testing
         this.setState({loggedIn: true});
       }
@@ -33,7 +36,7 @@ class Annotations extends Component {
   }
 
   onNavigationStateChange(navState) {
-    if(navState.url == KINDLE_HOME) {
+    if(navState.url == `${KINDLE_HOME}/`) {
       this.fetchBooks();
       this.setState({loggedIn: true});
     }
@@ -41,7 +44,6 @@ class Annotations extends Component {
 
   fetchBooks() {
     let scraper = new KindleScraper();
-    // scraper._loadInitialState();
     scraper.fetchEach(this.storeBook);
   }
 
@@ -95,7 +97,7 @@ class Annotations extends Component {
         <WebView
           automaticallyAdjustContentInsets={true}
           style={styles.container}
-          url={`${KINDLE_HOME}login`}
+          url={`${KINDLE_HOME}/login`}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
           scalesPageToFit={true}
           startInLoadingState={true}
