@@ -2,16 +2,14 @@
 
 var React = require('react-native');
 var CookieManager = require('react-native-cookies');
-let ks = require('./lib/kindle-scraper');
-var KindleScraper = ks.KindleScraper;
-const KINDLE_HOME = ks.KINDLE_HOME;
+var BooksList = require('./app/BooksList');
+
+const KINDLE_HOME = require('./lib/kindle-scraper').KINDLE_HOME;
 
 var {
   AppRegistry,
   StyleSheet,
   Component,
-  View,
-  Text,
   WebView
 } = React;
 
@@ -24,12 +22,8 @@ class Annotations extends Component {
   }
 
   componentDidMount() {
-    // CookieManager.clearAll(() => {});
     CookieManager.getAll((cookies) => {
-      console.log('current cookies:');
-      console.log(cookies);
       if(cookies['at-main'] && cookies['at-main'].domain == '.amazon.com') {
-        this.fetchBooks(); // temporary for testing
         this.setState({loggedIn: true});
       }
     });
@@ -37,19 +31,8 @@ class Annotations extends Component {
 
   onNavigationStateChange(navState) {
     if(navState.url == `${KINDLE_HOME}/`) {
-      this.fetchBooks();
       this.setState({loggedIn: true});
     }
-  }
-
-  fetchBooks() {
-    let scraper = new KindleScraper();
-    scraper.fetchEach(this.storeBook);
-  }
-
-  storeBook(rawBook) {
-    console.log('stored book from:');
-    console.log(rawBook);
   }
 
   // async _loadInitialState() {
@@ -88,9 +71,7 @@ class Annotations extends Component {
   render() {
     if(this.state.loggedIn) {
       return (
-        <View style={styles.container}>
-          <Text>Render books here!</Text>
-        </View>
+        <BooksList />
       );
     } else {
       return (
