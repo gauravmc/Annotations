@@ -21,20 +21,17 @@ class BooksList extends Component {
   }
 
   componentDidMount() {
-    asyncDB.read('book:asins', (err, asins) => {
-      if(asins) {
-        this.readStoredBooks(JSON.parse(asins));
-      } else {
-        this.fetchBooks();
-      }
-    });
+    this.loadOrFetchBooks();
   }
 
-  async readStoredBooks(asins) {
-    for(let asin of asins) {
-      await asyncDB.read(`book:${asin}`, (err, book) => {
-        this.appendBookRow(JSON.parse(book));
-      });
+  async loadOrFetchBooks() {
+    let asins = await asyncDB.read_or_create('book:asins', []);
+    if(asins.length > 0) {
+      for(let asin of asins) {
+        await asyncDB.read(`book:${asin}`, (err, book) => this.appendBookRow(book));
+      }
+    } else {
+      this.fetchBooks();
     }
   }
 
@@ -45,9 +42,9 @@ class BooksList extends Component {
       let book = {title: bookData.title, author: bookData.author};
       this.appendBookRow(book);
       asyncDB.append('book:asins', bookData.asin);
-      asyncDB.create(`book:${bookData.asin}`, JSON.stringify(book));
-      asyncDB.create(`highlights:${bookData.asin}`, JSON.stringify(bookData.highlights));
-    });
+      asyncDB.create(`book:${bookData.asin}`, book);
+      asyncDB.create(`highlights:${bookData.asin}`, bookData.highlights);
+    }, asyncDB.merge('user', {booksFetched: true}));
   }
 
   appendBookRow(book) {
