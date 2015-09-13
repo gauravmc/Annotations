@@ -13,8 +13,6 @@ var {
   WebView
 } = React;
 
-// var STORAGE_KEY = '@AnnotationsStore:key';
-
 class Annotations extends Component {
   constructor(props) {
     super(props);
@@ -34,39 +32,6 @@ class Annotations extends Component {
       this.setState({loggedIn: true});
     }
   }
-
-  // async _loadInitialState() {
-  //   try {
-  //     var value = await AsyncStorage.getItem(STORAGE_KEY);
-  //     if (value !== null){
-  //       this.setState({selectedValue: value});
-  //       console.log('Recovered selection from disk: ' + value);
-  //     } else {
-  //       console.log('Initialized with no selection on disk.');
-  //     }
-  //   } catch (error) {
-  //     console.error('AsyncStorage error: ' + error.message);
-  //   }
-  // }
-  //
-  // async _onValueChange(selectedValue) {
-  //   this.setState({selectedValue});
-  //   try {
-  //     await AsyncStorage.setItem(STORAGE_KEY, selectedValue);
-  //     console.log('Saved selection to disk: ' + selectedValue);
-  //   } catch (error) {
-  //     console.error('AsyncStorage error: ' + error.message);
-  //   }
-  // }
-  //
-  // async _removeStorage() {
-  //   try {
-  //     await AsyncStorage.removeItem(STORAGE_KEY);
-  //     console.log('Selection removed from disk.');
-  //   } catch (error) {
-  //     console.error('AsyncStorage error: ' + error.message);
-  //   }
-  // }
 
   render() {
     if(this.state.loggedIn) {

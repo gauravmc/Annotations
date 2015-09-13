@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var BookRow = require('./BookRow');
-
+var AsyncDB = require('./../lib/async-db');
 var KindleScraper = require('./../lib/kindle-scraper').KindleScraper;
 
 var {
@@ -14,6 +14,7 @@ var {
 class BooksList extends Component {
   constructor(props) {
     super(props);
+    this.asyncDB = new AsyncDB();
     this.state = {
       books: [],
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -21,16 +22,38 @@ class BooksList extends Component {
   }
 
   componentDidMount() {
-    this.fetchBooks();
+    this.asyncDB.read('book:asins', (err, asins) => {
+      if(asins) {
+        this.readStoredBooks(JSON.parse(asins));
+      } else {
+        this.fetchBooks();
+      }
+    });
+  }
+
+  async readStoredBooks(asins) {
+    for(let asin of asins) {
+      await this.asyncDB.read(`book:${asin}`, (err, book) => {
+        this.appendBookRow(JSON.parse(book));
+      });
+    }
   }
 
   fetchBooks() {
     let scraper = new KindleScraper();
+
     scraper.fetchEach((bookData) => {
-      let books = this.state.books;
-      books.push({title: bookData.title, author: bookData.author});
-      this.setState({dataSource: this.state.dataSource.cloneWithRows(books)});
+      let book = {title: bookData.title, author: bookData.author};
+      this.appendBookRow(book);
+      this.asyncDB.append('book:asins', bookData.asin);
+      this.asyncDB.create(`book:${bookData.asin}`, JSON.stringify(book));
+      this.asyncDB.create(`highlights:${bookData.asin}`, JSON.stringify(bookData.highlights));
     });
+  }
+
+  appendBookRow(book) {
+    let books = this.state.books.concat([book]);
+    this.setState({books, dataSource: this.state.dataSource.cloneWithRows(books)});
   }
 
   render() {
