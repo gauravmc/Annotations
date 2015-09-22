@@ -49,12 +49,12 @@ class Annotations extends Component {
     } else {
       return (
         <WebView
-          automaticallyAdjustContentInsets={true}
+          automaticallyAdjustContentInsets
           style={styles.container}
           url={`${KINDLE_HOME}/login`}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
-          scalesPageToFit={true}
-          startInLoadingState={true}
+          scalesPageToFit
+          startInLoadingState
         />
       );
     }
