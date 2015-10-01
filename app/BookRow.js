@@ -11,8 +11,6 @@ var {
   Image
 } = React;
 
-const PLACEHOLDER_BOOK_IMG = 'https://dl.dropboxusercontent.com/u/45917215/highlights/no_book_cover.jpg';
-
 class BookRow extends Component {
   // constructor(props) {
   //   super(props);
@@ -30,7 +28,7 @@ class BookRow extends Component {
   render() {
     return(
       <View style={styles.row}>
-        <Image resizeMode={Image.resizeMode.contain} style={styles.bookImg} source={{uri: PLACEHOLDER_BOOK_IMG}} />
+        <Image resizeMode={Image.resizeMode.contain} style={styles.bookImg} source={require('image!no_book_cover')} />
         <View style={styles.bookContent}>
           <Text>{this.chopRowText(this.props.bookTitle)}</Text>
           <Text>{this.chopRowText(this.props.bookAuthor)}</Text>
