@@ -25,12 +25,13 @@ class BooksList extends Component {
   }
 
   async loadOrFetchBooks() {
-    let asins = await asyncDB.read_or_create('book:asins', []);
-    if(asins.length > 0) {
+    let asins = await asyncDB.read('book:asins');
+    if(asins) {
       for(let asin of asins) {
         await asyncDB.read(`book:${asin}`, (err, book) => this.appendBookRow(book));
       }
     } else {
+      await asyncDB.create('book:asins', []);
       this.fetchBooks();
     }
   }

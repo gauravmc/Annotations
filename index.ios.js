@@ -18,10 +18,14 @@ class Annotations extends Component {
   constructor(props) {
     super(props);
     this.state = {loggedIn: false};
-    asyncDB.read_or_create('user', {
-      email: null,
-      booksFetched: false,
-      lastFetchedBookUrl: null
+    asyncDB.read('user', (err, user) => {
+      if(!user) {
+        asyncDB.create('user', {
+          email: null,
+          booksFetched: false,
+          lastFetchedBookUrl: null
+        });
+      }
     });
   }
 
