@@ -1,9 +1,9 @@
 'use strict';
 
-var React = require('react-native');
-var BookRow = require('./BookRow');
-var asyncDB = require('./../lib/async-db');
-var KindleScraper = require('./../lib/kindle-scraper').KindleScraper;
+import React from 'react-native';
+import BookRow from './BookRow';
+import asyncDB from './../lib/async-db';
+const KindleScraper = require('./../lib/kindle-scraper').KindleScraper;
 
 var {
   Component,
