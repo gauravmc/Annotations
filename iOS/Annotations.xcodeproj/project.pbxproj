@@ -23,7 +23,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		F43826E71BB0FEE000730699 /* RNCookieManagerIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = F43826E61BB0FEE000730699 /* RNCookieManagerIOS.m */; settings = {ASSET_TAGS = (); }; };
+		F476989B1BDF37C500AC1270 /* RNCookieManagerIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = F476989A1BDF37C500AC1270 /* RNCookieManagerIOS.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,8 +128,8 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		F43826E51BB0FEE000730699 /* RNCookieManagerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCookieManagerIOS.h; sourceTree = "<group>"; };
-		F43826E61BB0FEE000730699 /* RNCookieManagerIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCookieManagerIOS.m; sourceTree = "<group>"; };
+		F47698991BDF37C500AC1270 /* RNCookieManagerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCookieManagerIOS.h; sourceTree = "<group>"; };
+		F476989A1BDF37C500AC1270 /* RNCookieManagerIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCookieManagerIOS.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,11 +291,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				F43826E41BB0FEE000730699 /* RNCookieManagerIOS */,
 				13B07FAE1A68108700A75B9A /* Annotations */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AnnotationsTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				F47698981BDF37C500AC1270 /* RNCookieManagerIOS */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -310,11 +310,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F43826E41BB0FEE000730699 /* RNCookieManagerIOS */ = {
+		F47698981BDF37C500AC1270 /* RNCookieManagerIOS */ = {
 			isa = PBXGroup;
 			children = (
-				F43826E51BB0FEE000730699 /* RNCookieManagerIOS.h */,
-				F43826E61BB0FEE000730699 /* RNCookieManagerIOS.m */,
+				F47698991BDF37C500AC1270 /* RNCookieManagerIOS.h */,
+				F476989A1BDF37C500AC1270 /* RNCookieManagerIOS.m */,
 			);
 			path = RNCookieManagerIOS;
 			sourceTree = "<group>";
@@ -540,7 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				F43826E71BB0FEE000730699 /* RNCookieManagerIOS.m in Sources */,
+				F476989B1BDF37C500AC1270 /* RNCookieManagerIOS.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -609,6 +609,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

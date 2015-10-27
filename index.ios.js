@@ -4,7 +4,6 @@ var React = require('react-native');
 var CookieManager = require('react-native-cookies');
 var BooksList = require('./app/BooksList');
 var asyncDB = require('./lib/async-db');
-
 const KINDLE_HOME = require('./lib/kindle-scraper').KINDLE_HOME;
 
 var {
